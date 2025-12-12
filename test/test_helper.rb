@@ -4,4 +4,11 @@ require "bundler/setup"
 require "minitest/autorun"
 require "active_support/test_case"
 require "active_record"
+require "temping"
 require "stepped"
+
+ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: ":memory:")
+
+class ActiveSupport::TestCase
+  teardown { Temping.teardown }
+end
