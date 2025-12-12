@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "test_helper"
-require_relative "../app/models/stepped/sample"
 
 class SteppedSampleTest < ActiveSupport::TestCase
   setup do

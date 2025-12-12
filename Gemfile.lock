@@ -2,7 +2,10 @@ PATH
   remote: .
   specs:
     stepped (0.1.0)
-      rails (>= 8.1)
+      activejob (>= 8.1)
+      activerecord (>= 8.1)
+      railties (>= 8.1)
+      zeitwerk (~> 2.6)
 
 GEM
   remote: https://rubygems.org/

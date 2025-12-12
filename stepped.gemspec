@@ -14,10 +14,13 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = ">= 3.2"
 
-  spec.files = Dir["lib/**/*", "README.md", "LICENSE"]
-  spec.require_paths = ["lib"]
+  spec.files = Dir["app/**/*", "lib/**/*", "README.md", "LICENSE"]
 
-  spec.add_dependency "rails", ">= 8.1"
+  rails_version = ">= 8.1"
+  spec.add_dependency "activerecord", rails_version
+  spec.add_dependency "activejob", rails_version
+  spec.add_dependency "railties", rails_version
+  spec.add_dependency "zeitwerk", "~> 2.6"
 
   spec.add_development_dependency "bundler", ">= 2.5"
   spec.add_development_dependency "minitest", ">= 5.0"
