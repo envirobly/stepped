@@ -1,0 +1,25 @@
+#!/bin/bash -e
+
+RELEASE_VERSION=$1
+
+if [ -z "$1" ]; then
+  echo "Specify version to release as the first argument"
+  exit 1
+fi
+
+echo "This will release gem v$RELEASE_VERSION"
+read -p "Are you sure you want to continue? [y/N]: " confirm
+if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
+  echo "Aborted."
+  exit 1
+fi
+
+gem build stepped.gemspec
+gem install ./stepped-$RELEASE_VERSION.gem --no-document
+gem push stepped-$RELEASE_VERSION.gem
+
+# Tag and push the tag
+git tag v$RELEASE_VERSION
+git push origin tag v$RELEASE_VERSION
+
+echo "$RELEASE_VERSION released"
