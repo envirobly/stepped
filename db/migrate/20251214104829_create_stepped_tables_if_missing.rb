@@ -42,11 +42,6 @@ class CreateSteppedTablesIfMissing < ActiveRecord::Migration[8.0]
     add_index :stepped_actions_steps, %i[action_id step_id], unique: true, name: "index_stepped_actions_steps_on_action_id_and_step_id", if_not_exists: true
     add_index :stepped_actions_steps, %i[step_id action_id], name: "index_stepped_actions_steps_on_step_id_and_action_id", if_not_exists: true
 
-    create_table :stepped_actors, if_not_exists: true do |t|
-      t.text :content
-      t.timestamps null: false
-    end
-
     create_table :stepped_performances, if_not_exists: true do |t|
       t.bigint :action_id, null: false
       t.string :concurrency_key
