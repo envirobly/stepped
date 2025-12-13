@@ -49,11 +49,11 @@ module Stepped::TestHelper
   end
 
   def handle_stepped_action_exceptions(only: [ StandardError ])
-    was = Rails.configuration.x.stepped_actions.handle_exceptions
-    Rails.configuration.x.stepped_actions.handle_exceptions = Array(only)
+    was = Stepped::Engine.config.stepped_actions.handle_exceptions
+    Stepped::Engine.config.stepped_actions.handle_exceptions = Array(only)
     yield
   ensure
-    Rails.configuration.x.stepped_actions.handle_exceptions = was
+    Stepped::Engine.config.stepped_actions.handle_exceptions = was
   end
 
   def perform_enqueued_jobs_recursively(only: nil)

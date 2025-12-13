@@ -255,8 +255,8 @@ Stepped can either raise exceptions (letting your job backend retry) or treat sp
 Configure the handled exception classes in your application:
 
 ```ruby
-# config/application.rb (or an environment file)
-config.x.stepped_actions.handle_exceptions = [StandardError]
+# config/initializers/stepped.rb (or an environment file)
+Stepped::Engine.config.stepped_actions.handle_exceptions = [StandardError]
 ```
 
 When an exception is handled, Stepped reports it via `Rails.error.report` and marks the action/step as `failed` instead of raising.

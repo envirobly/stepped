@@ -6,11 +6,15 @@ module Stepped
     "stepped_"
   end
 
+  def self.handled_exception_classes
+    Array(Stepped::Engine.config.stepped_actions.handle_exceptions)
+  end
+
   def self.handle_exception(context: {})
     yield
     true
   rescue StandardError => e
-    raise unless Rails.configuration.x.stepped_actions.handle_exceptions.any? { e.class <= _1 }
+    raise unless handled_exception_classes.any? { e.class <= _1 }
     Rails.error.report(e, handled: false, context:)
     false
   end
