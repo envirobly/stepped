@@ -5,11 +5,8 @@ namespace :stepped do
   namespace :install do
     desc "Copy Stepped migrations to the host app"
     task migrations: :environment do
-      previous_from = ENV["FROM"]
       ENV["FROM"] = Stepped::Engine.railtie_name
       Rake::Task["railties:install:migrations"].invoke
-      ENV["FROM"] = previous_from
-      Rake::Task["railties:install:migrations"].reenable
     end
   end
 end
