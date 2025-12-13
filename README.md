@@ -214,7 +214,9 @@ Under the hood, completion forwards to the current outbound action for that acto
 
 ## Job-backed actions
 
-If you prefer to implement an action as an Active Job, declare it with `job:`. Job-backed actions are treated as outbound and are expected to call `action.complete!` when finished:
+This is especially useful if you'd like to have (delayed) retries on certain errors, that ActiveJob supports out of the box. 
+
+You can declare it with `job:`. Job-backed actions are treated as outbound and are expected to call `action.complete!` when finished. The action instance is passed as the first and only argument. To work with the action arguments, use the familiar `action.arguments`:
 
 ```ruby
 class TowJob < ActiveJob::Base
