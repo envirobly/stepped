@@ -1,10 +1,12 @@
 class Stepped::Step < ActiveRecord::Base
-  enum :status, %w[
+  STATUSES = %w[
     pending
     performing
     succeeded
     failed
-  ].index_by(&:itself)
+  ].freeze
+
+  enum :status, STATUSES.index_by(&:itself)
 
   belongs_to :action
 

@@ -1,7 +1,7 @@
 class Stepped::Action < ActiveRecord::Base
   self.filter_attributes = []
 
-  enum :status, %w[
+  STATUSES = %w[
     pending
     performing
     succeeded
@@ -10,7 +10,9 @@ class Stepped::Action < ActiveRecord::Base
     failed
     timed_out
     deadlocked
-  ].index_by(&:itself)
+  ].freeze
+
+  enum :status, STATUSES.index_by(&:itself)
 
   serialize :arguments, coder: Stepped::Arguments
 
