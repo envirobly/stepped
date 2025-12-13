@@ -1,6 +1,6 @@
 require "test_helper"
 
-class SampleTest < ActiveSupport::TestCase
+class SampleTest < Stepped::TestCase
   test "inherits from ApplicationRecord" do
     assert_equal ApplicationRecord, Sample.superclass
   end
