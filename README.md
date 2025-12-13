@@ -27,6 +27,7 @@ bin/rails db:migrate
 ### Test suite
 
 ```sh
+bin/rails db:test:prepare
 bin/rails test
 ```
 
