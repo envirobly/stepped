@@ -16,7 +16,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_14_104829) do
     t.string "checksum_key", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["checksum_key"], name: "index_stepped_achievements_on_checksum_key", unique: true
+    t.index [ "checksum_key" ], name: "index_stepped_achievements_on_checksum_key", unique: true
   end
 
   create_table "stepped_actions", force: :cascade do |t|
@@ -40,17 +40,17 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_14_104829) do
     t.string "status", default: "pending", null: false
     t.integer "timeout_seconds"
     t.datetime "updated_at", null: false
-    t.index ["actor_type", "actor_id"], name: "index_stepped_actions_on_actor"
-    t.index ["performance_id", "outbound"], name: "index_stepped_actions_on_performance_id_and_outbound"
-    t.index ["performance_id"], name: "index_stepped_actions_on_performance_id"
-    t.index ["root"], name: "index_stepped_actions_on_root"
+    t.index [ "actor_type", "actor_id" ], name: "index_stepped_actions_on_actor"
+    t.index [ "performance_id", "outbound" ], name: "index_stepped_actions_on_performance_id_and_outbound"
+    t.index [ "performance_id" ], name: "index_stepped_actions_on_performance_id"
+    t.index [ "root" ], name: "index_stepped_actions_on_root"
   end
 
   create_table "stepped_actions_steps", id: false, force: :cascade do |t|
     t.bigint "action_id", null: false
     t.bigint "step_id", null: false
-    t.index ["action_id", "step_id"], name: "index_stepped_actions_steps_on_action_id_and_step_id", unique: true
-    t.index ["step_id", "action_id"], name: "index_stepped_actions_steps_on_step_id_and_action_id"
+    t.index [ "action_id", "step_id" ], name: "index_stepped_actions_steps_on_action_id_and_step_id", unique: true
+    t.index [ "step_id", "action_id" ], name: "index_stepped_actions_steps_on_step_id_and_action_id"
   end
 
   create_table "stepped_actors", force: :cascade do |t|
@@ -65,9 +65,9 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_14_104829) do
     t.datetime "created_at", null: false
     t.string "outbound_complete_key"
     t.datetime "updated_at", null: false
-    t.index ["action_id"], name: "index_stepped_performances_on_action_id", unique: true
-    t.index ["concurrency_key"], name: "index_stepped_performances_on_concurrency_key", unique: true
-    t.index ["outbound_complete_key"], name: "index_stepped_performances_on_outbound_complete_key", where: "(outbound_complete_key IS NOT NULL)"
+    t.index [ "action_id" ], name: "index_stepped_performances_on_action_id", unique: true
+    t.index [ "concurrency_key" ], name: "index_stepped_performances_on_concurrency_key", unique: true
+    t.index [ "outbound_complete_key" ], name: "index_stepped_performances_on_outbound_complete_key", where: "(outbound_complete_key IS NOT NULL)"
   end
 
   create_table "stepped_steps", force: :cascade do |t|
@@ -80,8 +80,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_14_104829) do
     t.string "status", default: "pending", null: false
     t.integer "unsuccessful_actions_count", default: 0
     t.datetime "updated_at", null: false
-    t.index ["action_id", "definition_index"], name: "index_stepped_steps_on_action_id_and_definition_index", unique: true
-    t.index ["action_id"], name: "index_stepped_steps_on_action_id"
+    t.index [ "action_id", "definition_index" ], name: "index_stepped_steps_on_action_id_and_definition_index", unique: true
+    t.index [ "action_id" ], name: "index_stepped_steps_on_action_id"
   end
 
   add_foreign_key "stepped_actions", "stepped_performances", column: "performance_id"
