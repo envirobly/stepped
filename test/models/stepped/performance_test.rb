@@ -1,6 +1,20 @@
 require "test_helper"
 
 class Stepped::PerformanceTest < Stepped::TestCase
+  setup do
+    Temping.create "account" do
+      with_columns do |t|
+        t.string :name
+      end
+
+      stepped_action :fly
+
+      def fly; end
+    end
+
+    @account = Account.create!(name: "Acme Org")
+  end
+
   test "only one action performance can exist at a time" do
     action = create_action
     assert_difference "Stepped::Performance.count" => +1 do
@@ -23,7 +37,7 @@ class Stepped::PerformanceTest < Stepped::TestCase
   end
 
   def create_action
-    actor = accounts :acme_org
+    actor = @account
     Stepped::Action.new(actor:, name: "fly").tap(&:apply_definition).tap(&:save!)
   end
 end

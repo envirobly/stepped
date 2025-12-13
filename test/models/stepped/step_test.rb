@@ -2,6 +2,16 @@ require "test_helper"
 
 class Stepped::StepTest < Stepped::TestCase
   setup do
+    Temping.create "account" do
+      with_columns do |t|
+        t.string :name
+      end
+
+      stepped_action :action1
+
+      def action1; end
+    end
+
     Temping.create "car" do
       with_columns do |t|
         t.integer :honks, default: 0
@@ -12,6 +22,7 @@ class Stepped::StepTest < Stepped::TestCase
       end
     end
 
+    @account = Account.create!(name: "Acme Org")
     @car = Car.create!
   end
 
@@ -41,7 +52,7 @@ class Stepped::StepTest < Stepped::TestCase
   end
 
   test "NoPendingActionsError" do
-    action = Stepped::Action.new(actor: accounts(:acme_org), name: "action1")
+    action = Stepped::Action.new(actor: @account, name: "action1")
     action.apply_definition
     step = action.steps.build(pending_actions_count: 0, definition_index: 0)
     action.save!
