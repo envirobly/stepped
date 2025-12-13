@@ -1,5 +1,5 @@
 namespace :stepped do
-  desc "Install Stepped migrations into the host app"
+  desc "Install Stepped Actions"
   task install: "stepped:install:migrations"
 
   namespace :install do
