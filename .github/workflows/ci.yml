@@ -53,11 +53,14 @@ jobs:
           ruby-version: ruby-3.4.7
           bundler-cache: true
 
+      - name: Prepare test db
+        env:
+          RAILS_ENV: test
+        run: bin/rails db:test:prepare
+
       - name: Run tests
         env:
           RAILS_ENV: test
-          # RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-          # REDIS_URL: redis://localhost:6379/0
         run: bin/rails test
 
       - name: Keep screenshots from failed system tests
