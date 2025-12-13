@@ -27,17 +27,17 @@ class Stepped::StepTest < Stepped::TestCase
   end
 
   test "HABTM" do
-    actor = Stepped::Actor.create!
+    actor = Car.create!
     parent_action = Stepped::Action.create!(name: "test", actor:, checksum_key: "a", concurrency_key: "a")
     step = parent_action.steps.create!(definition_index: 0)
-    action = Stepped::Action.new(name: "test2", actor: Stepped::Actor.create!, checksum_key: "b", concurrency_key: "b")
+    action = Stepped::Action.new(name: "test2", actor: Car.create!, checksum_key: "b", concurrency_key: "b")
     action.parent_steps << step
     assert action.save!
     assert_equal 1, action.parent_steps.count
     assert_equal step, action.parent_steps.first
 
     # copy_parent_steps_to
-    action2 = Stepped::Action.create!(name: "test3", actor: Stepped::Actor.create!, checksum_key: "c", concurrency_key: "c")
+    action2 = Stepped::Action.create!(name: "test3", actor: Car.create!, checksum_key: "c", concurrency_key: "c")
 
     Stepped::Action.transaction do
       action.copy_parent_steps_to(action2)
