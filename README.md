@@ -18,6 +18,8 @@ gem "stepped"
 And then execute:
 ```bash
 bundle install
+bin/rails stepped:install
+bin/rails db:migrate
 ```
 
 ## Development
