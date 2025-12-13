@@ -2,6 +2,8 @@
 
 Stepped is a Rails engine for orchestrating complex workflows as a tree of actions. Each action is persisted, runs through Active Job, and can fan out into more actions while keeping the parent action moving step-by-step as dependencies complete.
 
+<img width="1024" height="1024" alt="stepped-actions" src="https://github.com/user-attachments/assets/32577a1e-1240-44ec-af0a-493a48ec70ef" />
+
 The core ideas are:
 
 - **Action trees**: define a root action with multiple steps; each step can enqueue more actions and the step completes only once all the actions within it complete.
