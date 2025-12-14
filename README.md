@@ -11,7 +11,7 @@ Stepped was extracted out of [Envirobly](https://klevo.sk/projects/envirobly-eff
 - **Action trees**: define a root action with multiple steps; each step can enqueue more actions and the step completes only once all the actions within it complete.
 - **Models are the Actors**: in Rails, your business logic usually centers around database-persisted models. Stepped takes advantage of this and allows you to define and run actions on all your models, out of the box.
 - **Concurrency lanes**: actions with the same `concurrency_key` share a `Stepped::Performance`, so only one runs at a time while others queue up (with automatic superseding of older queued work).
-- **Reuse**: optional `checksum` lets Stepped skip work that is already achieved, or share a currently-performing action with multiple parents. Imagine you need to launch multiple workflows with different outcomes, that all depends on the outcome of the same action, somewhere in the action tree. Stepped makes this easy and efficient.
+- **Reuse**: optional `checksum` lets Stepped skip work that is already achieved, or share a currently-performing action with multiple parents. Imagine you need to launch multiple workflows with different outcomes, that all depend on the outcome of the same action, somewhere in the action tree. Stepped makes this easy and efficient.
 - **Outbound completion**: actions can be marked outbound (or implemented as a job) and completed later by an external event.
 
 ## Installation
