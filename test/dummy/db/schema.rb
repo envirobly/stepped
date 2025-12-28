@@ -53,12 +53,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_14_104829) do
     t.index [ "step_id", "action_id" ], name: "index_stepped_actions_steps_on_step_id_and_action_id"
   end
 
-  create_table "stepped_actors", force: :cascade do |t|
-    t.text "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "stepped_performances", force: :cascade do |t|
     t.bigint "action_id", null: false
     t.string "concurrency_key"
