@@ -1,6 +1,6 @@
 require "test_helper"
 
-class NavigationTest < ActionDispatch::IntegrationTest
+class NavigationTest < Stepped::IntegrationTest
   # test "the truth" do
   #   assert true
   # end
