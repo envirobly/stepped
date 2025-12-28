@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    stepped (1.0.0)
+    stepped (1.0.1)
       rails (>= 8.1.1)
 
 GEM
@@ -378,7 +378,7 @@ CHECKSUMS
   sqlite3 (2.9.0-x86_64-darwin) sha256=59fe51baa3cb33c36d27ce78b4ed9360cd33ccca09498c2ae63850c97c0a6026
   sqlite3 (2.9.0-x86_64-linux-gnu) sha256=72fff9bd750070ba3af695511ba5f0e0a2d8a9206f84869640b3e99dfaf3d5a5
   sqlite3 (2.9.0-x86_64-linux-musl) sha256=ef716ba7a66d7deb1ccc402ac3a6d7343da17fac862793b7f0be3d2917253c90
-  stepped (1.0.0)
+  stepped (1.0.1)
   stringio (3.2.0) sha256=c37cb2e58b4ffbd33fe5cd948c05934af997b36e0b6ca6fdf43afa234cf222e1
   temping (4.4.0) sha256=9d4052dee6ad6900d03d8da801a4314ec6ea8666df70b3fade0357340b75a83d
   thor (1.4.0) sha256=8763e822ccb0f1d7bee88cde131b19a65606657b847cc7b7b4b82e772bcd8a3d
