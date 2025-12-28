@@ -1,7 +1,7 @@
 class Stepped::Action < ActiveRecord::Base
   self.filter_attributes = []
 
-  enum :status, %w[
+  STATUSES = %w[
     pending
     performing
     succeeded
@@ -10,7 +10,9 @@ class Stepped::Action < ActiveRecord::Base
     failed
     timed_out
     deadlocked
-  ].index_by(&:itself)
+  ].freeze
+
+  enum :status, STATUSES.index_by(&:itself)
 
   serialize :arguments, coder: Stepped::Arguments
 
@@ -174,7 +176,7 @@ class Stepped::Action < ActiveRecord::Base
 
   def deadlock!
     e = Deadlock.new "#{name} on #{actor.class.name}/#{actor.id}"
-    handled = Rails.configuration.x.stepped_actions.handle_exceptions.any? { e.class <= _1 }
+    handled = Stepped.handled_exception_classes.any? { e.class <= _1 }
     raise e unless handled
 
     Rails.error.report(e, handled:)

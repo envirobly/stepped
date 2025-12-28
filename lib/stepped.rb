@@ -2,5 +2,25 @@ require "stepped/version"
 require "stepped/engine"
 
 module Stepped
-  # Your code goes here...
+  def self.table_name_prefix
+    "stepped_"
+  end
+
+  def self.handled_exception_classes
+    Array(Stepped::Engine.config.stepped_actions.handle_exceptions)
+  end
+
+  def self.handle_exception(context: {})
+    yield
+    true
+  rescue StandardError => e
+    raise unless handled_exception_classes.any? { e.class <= _1 }
+    Rails.error.report(e, handled: false, context:)
+    false
+  end
+
+  def self.checksum(value)
+    return if value.nil?
+    Digest::SHA256.hexdigest JSON.dump(value)
+  end
 end

@@ -14,8 +14,13 @@ if ActiveSupport::TestCase.respond_to?(:fixture_paths=)
   ActiveSupport::TestCase.fixtures :all
 end
 
+require "stepped/test_helper"
+
 module Stepped
   class TestCase < ActiveSupport::TestCase
+    include ActiveJob::TestHelper
+    include Stepped::TestHelper
+
     teardown { Temping.teardown }
   end
 
