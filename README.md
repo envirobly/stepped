@@ -237,11 +237,14 @@ class Car < ApplicationRecord
 end
 ```
 
-You can extend existing actions (including job-backed ones) by prepending steps:
+You can extend existing actions by prepending steps. This is especially useful when a parent class defines an action,
+that you want to modify in a child class. For example:
 
 ```ruby
-Car.prepend_stepped_action_step :tow do
-  honk
+class SportsCar < Car
+  prepend_stepped_action_step :tow do |step|
+    step.do :something_special
+  end
 end
 ```
 
