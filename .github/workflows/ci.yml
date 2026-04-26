@@ -68,3 +68,21 @@ jobs:
           name: screenshots
           path: ${{ github.workspace }}/tmp/screenshots
           if-no-files-found: ignore
+
+  install-smoke:
+    runs-on: ubuntu-latest
+    env:
+      RUBY_VERSION: ruby-4.0.3
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler-cache: true
+
+      - name: Verify packaged gem installs into a fresh Rails app
+        run: bin/install-smoke
