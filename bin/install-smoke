@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+SMOKE_BASE="${STEPPED_INSTALL_SMOKE_BASE:-${RUNNER_TEMP:-${TMPDIR:-/tmp}}}"
+SMOKE_DIR="$SMOKE_BASE/stepped-install-smoke"
+BUILT_GEM="$SMOKE_DIR/stepped.gem"
+GEM_REPO="$SMOKE_DIR/gem-repo"
+APP_DIR="$SMOKE_DIR/app"
+VERSION="$(ruby -r "$ROOT/lib/stepped/version" -e 'print Stepped::VERSION')"
+ORIGINAL_GEM_PATH="$(ruby -e 'print Gem.path.join(File::PATH_SEPARATOR)')"
+
+rm -rf "$SMOKE_DIR"
+mkdir -p "$GEM_REPO/gems"
+mkdir -p "$SMOKE_DIR/gems"
+
+export GEM_HOME="$SMOKE_DIR/gems"
+export GEM_PATH="$GEM_HOME:$ORIGINAL_GEM_PATH"
+export PATH="$GEM_HOME/bin:$PATH"
+
+cd "$ROOT"
+
+gem build stepped.gemspec --output="$BUILT_GEM"
+gem install "$BUILT_GEM" --no-document
+ruby -rstepped/version -e 'abort "Stepped::VERSION is not defined" unless defined?(Stepped::VERSION)'
+
+cp "$BUILT_GEM" "$GEM_REPO/gems/stepped-$VERSION.gem"
+gem generate_index --directory "$GEM_REPO"
+
+(
+  cd "$SMOKE_BASE"
+  BUNDLE_GEMFILE="$ROOT/Gemfile" bundle exec rails new "$APP_DIR" \
+    --no-rc \
+    --skip-git \
+    --skip-bundle \
+    --database=sqlite3 \
+    --skip-action-mailer \
+    --skip-active-storage \
+    --skip-action-mailbox \
+    --skip-action-text \
+    --skip-action-cable \
+    --skip-javascript \
+    --skip-hotwire \
+    --skip-solid \
+    --skip-ci \
+    --skip-dev-gems \
+    --skip-docker \
+    --skip-jbuilder \
+    --skip-kamal \
+    --skip-rubocop \
+    --skip-brakeman \
+    --skip-bundler-audit \
+    --skip-system-test \
+    --skip-bootsnap \
+    --skip-thruster
+)
+
+cd "$APP_DIR"
+
+cat >> Gemfile <<GEMFILE
+
+source "file://$GEM_REPO" do
+  gem "stepped", "$VERSION"
+end
+GEMFILE
+
+bundle install
+bin/rails stepped:install
+
+if ! ls db/migrate/*create_stepped_tables_if_missing*.rb >/dev/null 2>&1; then
+  echo "Expected stepped install task to copy create_stepped_tables_if_missing migration"
+  exit 1
+fi
+
+bin/rails db:migrate
+bin/rails runner 'abort "ApplicationRecord is not actionable" unless ApplicationRecord.respond_to?(:stepped_action); abort "Stepped::Action table is missing" unless Stepped::Action.table_exists?'
